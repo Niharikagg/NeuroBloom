@@ -1,0 +1,45 @@
+/* ── SHARED COMPONENTS ── */
+
+.section-tag {
+  font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--rose); font-weight: 700; margin-bottom: 20px; display: block;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  font-weight: 700; color: var(--deep);
+  line-height: 1.2; letter-spacing: -0.02em;
+}
+
+.section-title em { font-style: italic; color: var(--rose); font-weight: 400; }
+
+.section-body {
+  font-size: 1.1rem; line-height: 1.8; color: #6B5060;
+  font-weight: 300; margin-top: 24px;
+}
+
+.btn-primary {
+  background: var(--rose); color: var(--white);
+  border: none; padding: 18px 40px; border-radius: 50px;
+  font-size: 1rem; font-family: 'DM Sans', sans-serif; font-weight: 600;
+  cursor: pointer; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 30px var(--rose-glow);
+}
+
+.btn-primary:hover { 
+  transform: translateY(-4px); 
+  box-shadow: 0 15px 40px rgba(201, 115, 106, 0.5);
+}
+
+.btn-ghost {
+  background: transparent; color: var(--deep);
+  border: 2px solid rgba(59, 37, 53, 0.15); padding: 16px 36px; border-radius: 50px;
+  font-size: 1rem; font-family: 'DM Sans', sans-serif; font-weight: 500;
+  cursor: pointer; transition: all 0.3s;
+}
+
+.btn-ghost:hover { 
+  border-color: var(--rose); color: var(--rose); 
+  background: rgba(201, 115, 106, 0.05);
+}

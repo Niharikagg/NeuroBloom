@@ -1,0 +1,47 @@
+<!-- ASSESSMENT PREVIEW -->
+<section class="screening" id="screening">
+  <div class="screening-inner">
+    <div class="screening-text">
+      <span class="section-tag">Interactive Preview</span>
+      <h2 class="section-title">Start understanding your brain today</h2>
+      <p class="section-body">These sample questions reflect how we explore your lived experiences — not symptoms, but patterns. Every question adapts to your previous answers.</p>
+      
+      <div class="screen-points">
+        <div class="screen-point"><i></i><span>Non-diagnostic — focus on patterns and clarity</span></div>
+        <div class="screen-point"><i></i><span>Private and confidential — your data is yours</span></div>
+        <div class="screen-point"><i></i><span>Grounded in women-specific clinical research</span></div>
+      </div>
+    </div>
+    
+    <div class="screening-form">
+      <!-- Question 1: Social Masking -->
+      <div class="q-card active" onclick="activateQuestion(this)" role="button" tabindex="0">
+        <div class="q-text">Do you often feel exhausted after social interactions, even ones you enjoyed?</div>
+        <div class="q-options">
+          <span class="q-opt" onclick="selectOption(this, event)" role="button" tabindex="0">Almost always</span>
+          <span class="q-opt" onclick="selectOption(this, event)" role="button" tabindex="0">Sometimes</span>
+          <span class="q-opt" onclick="selectOption(this, event)" role="button" tabindex="0">Rarely</span>
+        </div>
+      </div>
+      <!-- Question 2: Executive Function -->
+      <div class="q-card" onclick="activateQuestion(this)" role="button" tabindex="0">
+        <div class="q-text">Do you struggle to start tasks even when you know exactly what needs to be done?</div>
+        <div class="q-options">
+          <span class="q-opt" onclick="selectOption(this, event)" role="button" tabindex="0">Yes, frequently</span>
+          <span class="q-opt" onclick="selectOption(this, event)" role="button" tabindex="0">Occasionally</span>
+          <span class="q-opt" onclick="selectOption(this, event)" role="button" tabindex="0">Not really</span>
+        </div>
+      </div>
+      <!-- Question 3: Masking/Social Scripts -->
+      <div class="q-card" onclick="activateQuestion(this)" role="button" tabindex="0">
+        <div class="q-text">Do you often rehearse conversations in your head before they happen?</div>
+        <div class="q-options">
+          <span class="q-opt" onclick="selectOption(this, event)" role="button" tabindex="0">All the time</span>
+          <span class="q-opt" onclick="selectOption(this, event)" role="button" tabindex="0">Sometimes</span>
+          <span class="q-opt" onclick="selectOption(this, event)" role="button" tabindex="0">Never</span>
+        </div>
+      </div>
+      <button class="screening-cta" onclick="scrollToSection('hero')">Begin Full Assessment →</button>
+    </div>
+  </div>
+</section>

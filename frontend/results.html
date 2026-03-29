@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Your Patterns — NeuroBloom</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/nova.css">
+  <link rel="stylesheet" href="/css/results.css">
+</head>
+<body class="nova-body">
+
+  <!-- Top bar -->
+  <header class="nova-topbar">
+    <a href="/nova.html" class="nova-back">←</a>
+    <div class="nova-title-container">
+      <h1 class="nova-title">Nova</h1>
+      <span class="nova-subtitle">Analysis Complete</span>
+    </div>
+    <button class="nova-settings">⚙</button>
+  </header>
+
+  <!-- Loading State -->
+  <div id="loadingState" class="results-loading-state">
+    <div class="smaller-blob">
+      <div class="hero-blob"></div>
+      <div class="blob-icon">🌸</div>
+    </div>
+    <div class="loading-text">Synthesizing your patterns...</div>
+  </div>
+
+  <!-- Results Area (Hidden Initially) -->
+  <main class="nova-chat-area hidden" id="resultsArea">
+    
+    <div class="results-card fade-in-slow">
+      <div class="rc-header">
+        <h2 class="rc-pattern" id="patternLabel">Analyzing...</h2>
+        <p class="rc-sub">Your Primary Behavioral Profile</p>
+      </div>
+      
+      <div class="rc-scores">
+        <div class="score-row">
+          <span class="score-label">Social Masking</span>
+          <div class="score-bar"><div class="fill" id="barMasking" style="width: 0%; background: var(--rose);"></div></div>
+          <span class="score-num" id="numMasking">0%</span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">Sensory Overload</span>
+          <div class="score-bar"><div class="fill" id="barSensoryOverload" style="width: 0%; background: var(--lavender);"></div></div>
+          <span class="score-num" id="numSensoryOverload">0%</span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">Social Understanding</span>
+          <div class="score-bar"><div class="fill" id="barSocialUnderstanding" style="width: 0%; background: var(--mauve);"></div></div>
+          <span class="score-num" id="numSocialUnderstanding">0%</span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">Inner Focus</span>
+          <div class="score-bar"><div class="fill" id="barInnerFocus" style="width: 0%; background: #dcd6f7;"></div></div>
+          <span class="score-num" id="numInnerFocus">0%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="message-wrapper nova fade-in-slow-delayed">
+      <div class="nova-avatar-container">
+        <div class="nova-avatar">🌸</div>
+        <span class="nova-name">Nova</span>
+      </div>
+      <div class="message-bubble nova-bubble" id="insightText">
+        <!-- injected dynamically -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Input area (Reused so it feels consistent) -->
+  <footer class="nova-input-area hidden" id="resultsInput">
+    <div class="input-container">
+      <input type="text" placeholder="Say anything..." autocomplete="off">
+      <button class="send-btn">→</button>
+    </div>
+  </footer>
+
+  <script src="/js/results.js" type="module"></script>
+</body>
+</html>

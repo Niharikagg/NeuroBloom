@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Nova — Antigravity Agent</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/nova.css">
+</head>
+<body class="nova-body">
+
+  <!-- Top bar -->
+  <header class="nova-topbar">
+    <a href="/" class="nova-back">←</a>
+    <div class="nova-title-container">
+      <h1 class="nova-title">Nova</h1>
+    </div>
+    <button class="nova-settings">⚙</button>
+  </header>
+
+  <!-- Chat area -->
+  <main class="nova-chat-area" id="chatArea">
+    
+    <!-- Nova Initial Message -->
+    <div class="message-wrapper nova fade-in-slow">
+      <div class="nova-avatar-container">
+        <div class="nova-avatar">🌸</div>
+        <span class="nova-name">Nova</span>
+      </div>
+      <div class="message-bubble nova-bubble">
+        Hi, I'm Nova — NeuroBloom's screening guide.<br><br>
+        I'm going to ask you 15 short questions about how you think, feel, and move through the world. There are no right answers, and this is not a diagnosis.<br><br>
+        Take your time. Answer honestly. Nobody else sees this.
+      </div>
+    </div>
+
+    <!-- Quick Prompts (chips) -->
+    <div class="quick-prompts fade-in-slow-delayed" id="quickPrompts">
+      <button class="prompt-chip">Begin</button>
+    </div>
+
+    <!-- Typing indicator (hidden initially) -->
+    <div class="message-wrapper nova hidden" id="typingIndicator">
+      <div class="message-bubble nova-bubble typing-bubble">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Hidden input elements kept for JS compatibility -->
+  <input type="hidden" id="chatInput">
+  <button id="sendBtn" style="display:none;"></button>
+
+  <script src="/js/nova.js" type="module"></script>
+</body>
+</html>

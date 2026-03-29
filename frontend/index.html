@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroBloom — Women's Neurodivergence Support & Clarity</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="A women-centric neurodivergence screening and support platform. ADHD, Autism, and Executive Function support for women.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+    
+    <!-- Modular CSS (Vite handles these automatically) -->
+    <link rel="stylesheet" href="/css/variables.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/hero.css">
+    <link rel="stylesheet" href="/css/content.css">
+    <link rel="stylesheet" href="/css/screening.css">
+    <link rel="stylesheet" href="/css/footer.css">
+</head>
+<body>
+
+<!-- 
+  VITE HTML INJECTION
+  Using vite-plugin-html-inject to keep the file modular.
+-->
+
+<load src="/parts/nav.html" />
+
+<load src="/parts/hero.html" />
+
+<!-- Stats bar is small enough to keep here or we could also pull it out -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <span class="stat-num">5×</span>
+    <span class="stat-label">Later ADHD diagnosis in women</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">76%</span>
+    <span class="stat-label">Misdiagnosis rate in autistic women</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">89%</span>
+    <span class="stat-label">Women reporting daily masking</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">0</span>
+    <span class="stat-label">Clinical jargon used</span>
+  </div>
+</div>
+
+<load src="/parts/features.html" />
+
+<load src="/parts/why.html" />
+
+<load src="/parts/how.html" />
+
+<load src="/parts/screening.html" />
+
+<load src="/parts/footer.html" />
+
+<!-- MAIN MODULAR SCRIPT -->
+<script type="module" src="/js/scripts.js"></script>
+
+</body>
+</html>
