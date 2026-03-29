@@ -1,6 +1,6 @@
 export function setCorsHeaders(response) {
   response.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:3000');
-  response.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 }
 

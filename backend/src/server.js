@@ -1,6 +1,8 @@
 import './env.js';
 import http from 'node:http';
 import { URL } from 'node:url';
+import { handleInsightRoutes } from '../insight-engine/insight.routes.js';
+import { handleLearningRoutes } from '../learning-mode/learning.routes.js';
 import { sendJson, sendMethodNotAllowed, sendNoContent, sendNotFound } from './http.js';
 import { handleCommunicationCoachRoute } from './routes/communicationCoach.js';
 import { handleFocusRecoveryRoute } from './routes/focusRecovery.js';
@@ -11,6 +13,8 @@ const server = http.createServer(async (request, response) => {
   try {
     const requestUrl = new URL(request.url ?? '/', `http://${request.headers.host ?? 'localhost'}`);
     const isApiRoute =
+      requestUrl.pathname.startsWith('/api/learning/') ||
+      requestUrl.pathname.startsWith('/api/insight/') ||
       requestUrl.pathname === '/api/communication-coach' ||
       requestUrl.pathname.startsWith('/api/focus-recovery/');
 
@@ -19,13 +23,23 @@ const server = http.createServer(async (request, response) => {
       return;
     }
 
-    if (request.method !== 'POST') {
+    if (!['GET', 'POST'].includes(request.method ?? '')) {
       if (isApiRoute) {
         sendMethodNotAllowed(response);
         return;
       }
 
       sendNotFound(response);
+      return;
+    }
+
+    const learningHandled = await handleLearningRoutes(request, response, requestUrl.pathname);
+    if (learningHandled) {
+      return;
+    }
+
+    const insightHandled = await handleInsightRoutes(request, response, requestUrl.pathname);
+    if (insightHandled) {
       return;
     }
 
