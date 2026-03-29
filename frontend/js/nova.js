@@ -12,163 +12,47 @@ document.addEventListener('DOMContentLoaded', () => {
   sendBtn.style.opacity = '0.5';
   sendBtn.style.cursor = 'default';
 
-  const questions = [
-    { 
-      text: "Do you often seem fine on the outside while feeling drained inside?", 
-      weights: { masking: 1.0, executive: 0.25, sensory: 0.25 },
-      followUp: {
-        text: "What part feels most tiring — acting fine, staying alert, or both?",
-        options: [{ label: "Acting fine", score: 0.5 }, { label: "Staying alert", score: 0.5 }, { label: "Both", score: 1.0 }]
-      }
-    },
-    { 
-      text: "Do you copy how other people act so you can fit in more easily?", 
-      weights: { masking: 1.0, executive: 0.25, sensory: 0.25 },
-      followUp: {
-        text: "When do you notice yourself doing that the most?",
-        options: [{ label: "At work/school", score: 0.5 }, { label: "With new people", score: 0.5 }, { label: "Almost everywhere", score: 1.0 }]
-      }
-    },
-    { 
-      text: "Do you rehearse what you will say before talking to people?", 
-      weights: { masking: 1.0, executive: 0.25, sensory: 0.25 },
-      followUp: {
-         text: "What kinds of conversations make you do that most?",
-         options: [{ label: "Important ones", score: 0.5 }, { label: "Small talk", score: 0.5 }, { label: "All of them", score: 1.0 }]
-      }
-    },
-    { 
-      text: "Do you leave social situations feeling like you were performing?", 
-      weights: { masking: 1.0, executive: 0.25, sensory: 0.25 },
-      followUp: {
-         text: "What part of the interaction feels most draining?",
-         options: [{ label: "Thinking of what to say", score: 0.5 }, { label: "Hiding my real state", score: 1.0 }, { label: "The sensory environment", score: 0.5 }]
-      }
-    },
-    { 
-      text: "Do you hide when you are struggling until it becomes too much?", 
-      weights: { masking: 1.0, executive: 0.25, sensory: 0.25 },
-      followUp: {
-         text: "What usually stops you from saying it earlier?",
-         options: [{ label: "People don't understand", score: 1.0 }, { label: "I don't want to be a burden", score: 0.5 }, { label: "I don't realize I'm struggling yet", score: 0.5 }]
-      }
-    },
-    { 
-      text: "Do you know what needs to be done but still struggle to start?", 
-      weights: { masking: 0.2, executive: 1.0, sensory: 0.2 },
-      followUp: {
-         text: "What kind of task gets stuck the fastest?",
-         options: [{ label: "Multi-step tasks", score: 1.0 }, { label: "Boring/routine tasks", score: 0.5 }, { label: "Important/stressful ones", score: 0.5 }]
-      }
-    },
-    { 
-      text: "Do small tasks feel bigger than they should?", 
-      weights: { masking: 0.2, executive: 1.0, sensory: 0.2 },
-      followUp: {
-         text: "Which kinds of tasks feel surprisingly heavy?",
-         options: [{ label: "Emails / admin", score: 0.5 }, { label: "Chores", score: 0.5 }, { label: "Almost everything lately", score: 1.0 }]
-      }
-    },
-    { 
-      text: "Do you lose track of time even when you are trying to stay on schedule?", 
-      weights: { masking: 0.2, executive: 1.0, sensory: 0.2 },
-      followUp: {
-         text: "When does that happen most often?",
-         options: [{ label: "When I'm hyperfocused", score: 1.0 }, { label: "When transitioning tasks", score: 0.5 }, { label: "When distracted", score: 0.5 }]
-      }
-    },
-    { 
-      text: "Do you often forget steps in the middle of doing something?", 
-      weights: { masking: 0.2, executive: 1.0, sensory: 0.2 },
-      followUp: {
-         text: "Is there a type of task where that happens more?",
-         options: [{ label: "Complex routines", score: 1.0 }, { label: "When I'm interrupted", score: 0.5 }, { label: "Even simple things", score: 1.0 }]
-      }
-    },
-    { 
-      text: "Do you feel overwhelmed when you have to plan many things at once?", 
-      weights: { masking: 0.2, executive: 1.0, sensory: 0.2 },
-      followUp: {
-         text: "What part of planning feels hardest?",
-         options: [{ label: "Deciding priorities", score: 0.5 }, { label: "Organizing the steps", score: 0.5 }, { label: "Actually starting", score: 1.0 }]
-      }
-    },
-    { 
-      text: "Do noisy, crowded, or bright places drain you quickly?", 
-      weights: { masking: 0.25, executive: 0.25, sensory: 1.0 },
-      followUp: {
-         text: "Which of those tends to affect you the most?",
-         options: [{ label: "Loud noise", score: 1.0 }, { label: "Bright lights", score: 0.5 }, { label: "Lots of people moving", score: 0.5 }]
-      }
-    },
-    { 
-      text: "Do certain fabrics, smells, or sounds bother you more than other people?", 
-      weights: { masking: 0.25, executive: 0.25, sensory: 1.0 },
-      followUp: {
-         text: "Which one usually gets to you first?",
-         options: [{ label: "Textures/Fabrics", score: 1.0 }, { label: "Sounds", score: 1.0 }, { label: "Smells", score: 0.5 }]
-      }
-    },
-    { 
-      text: "Do you need quiet or alone time after being in a busy place?", 
-      weights: { masking: 0.25, executive: 0.25, sensory: 1.0 },
-      followUp: {
-         text: "How long does it usually take to feel okay again?",
-         options: [{ label: "An hour or two", score: 0.5 }, { label: "The rest of the day", score: 1.0 }, { label: "Multiple days", score: 1.0 }]
-      }
-    },
-    { 
-      text: "Do too many sights, sounds, or people make it hard to think clearly?", 
-      weights: { masking: 0.25, executive: 0.25, sensory: 1.0 },
-      followUp: {
-         text: "What kind of environment helps your brain settle?",
-         options: [{ label: "Dark and silent", score: 1.0 }, { label: "Soft lighting/music", score: 0.5 }, { label: "Nature/outdoors", score: 0.5 }]
-      }
-    },
-    { 
-      text: "After a normal day, do you sometimes feel like you need a long recovery just to function again?", 
-      weights: { masking: 0.25, executive: 0.25, sensory: 1.0 },
-      followUp: {
-         text: "What usually helps you recover fastest?",
-         options: [{ label: "Sleep/Rest", score: 0.5 }, { label: "Isolating from people", score: 1.0 }, { label: "Hobbies", score: 0.5 }]
-      }
-    }
-  ];
-
+  // Initialize adaptive screening engine
+  const screeningEngine = new AdaptiveScreeningEngine();
+  
   const acknowledgments = [
     "I hear you.",
-    "That makes a lot of sense.",
-    "Thank you for sharing that.",
-    "Got it.",
-    "I understand."
+    "That makes sense.",
+    "Thank you for that.",
+    "Okay.",
+    "I understand.",
+    "Go on.",
+    "Got it."
   ];
   
-  const completionMessage = "Thank you. I've got enough to put your pattern together now.";
+  const completionMessage = "Thank you. I've got enough to understand your pattern now.";
 
-  let currentQuestionIndex = -1; // -1 = initial greeting
-  let inFollowUp = false;
+  let currentQuestion = null;
   let isChatFinished = false;
-
-  let userScores = { masking: 0, executive: 0, sensory: 0 };
+  let responseCount = 0;
 
   // Initial chips listener
   document.querySelectorAll('.prompt-chip').forEach(chip => {
     chip.addEventListener('click', () => {
-      processUserChoice(chip.textContent, null);
+      processUserChoice(chip.textContent, null, null);
     });
   });
 
-  // Since text input is disabled, we process clicks directly
-  function processUserChoice(text, optionScoreObj) {
+  /**
+   * Main handler for user selections
+   * Supports both main questions and follow-ups
+   */
+  function processUserChoice(text, score = null, nextId = null) {
     if (isChatFinished) return;
 
-    if (currentQuestionIndex === -1 && quickPrompts) {
+    // Hide initial prompt chips on first interaction
+    if (responseCount === 0 && quickPrompts) {
       quickPrompts.style.transition = 'opacity 0.5s ease';
       quickPrompts.style.opacity = '0';
       setTimeout(() => quickPrompts.remove(), 500);
     }
 
-    // append user bubble
+    // Append user message bubble
     const msgDiv = document.createElement('div');
     msgDiv.className = 'message-wrapper user';
     msgDiv.style.opacity = '0';
@@ -177,77 +61,215 @@ document.addEventListener('DOMContentLoaded', () => {
     chatArea.insertBefore(msgDiv, typingIndicator);
     scrollToBottom();
 
-    // Greeting handled
-    if (currentQuestionIndex === -1) {
-      currentQuestionIndex++;
-      askNextMainQuestion();
+    // First interaction: intro acknowledgment
+    if (responseCount === 0) {
+      responseCount++;
+      setTimeout(() => askNextQuestion(), 800);
       return;
     }
 
-    const q = questions[currentQuestionIndex];
+    // Record response in screening engine
+    if (currentQuestion && score !== null) {
+      screeningEngine.recordResponse(currentQuestion.id, text, score);
+      responseCount++;
+    }
 
-    if (!inFollowUp) {
-      // Option is from MAIN question (yes/sometimes/no)
-      let multiplier = 0;
-      if (text === "Yes") multiplier = 1.0;
-      if (text === "Sometimes") multiplier = 0.5;
-
-      if (multiplier > 0) {
-        userScores.masking += q.weights.masking * multiplier;
-        userScores.executive += q.weights.executive * multiplier;
-        userScores.sensory += q.weights.sensory * multiplier;
-        
-        // Trigger followUp
-        inFollowUp = true;
-        showNovaMessage({
-           text: q.followUp.text,
-           options: q.followUp.options
-        });
+    // Check if we should go deeper (follow-up) or move next
+    if (nextId) {
+      // Explicit next question ID provided (deep branching)
+      currentQuestion = screeningEngine.findQuestionById(nextId);
+      setTimeout(() => showFollowUp(currentQuestion), 600);
+    } else if (currentQuestion && currentQuestion.followUps && currentQuestion.followUps[text]) {
+      // Standard follow-up exists for this response
+      const followUp = currentQuestion.followUps[text][0];
+      setTimeout(() => showFollowUpWithOptions(followUp.text, followUp.options), 600);
+    } else {
+      // Move to next main question
+      if (responseCount < 8) { // Adaptive length: 6-8 questions
+        setTimeout(() => askNextQuestion(), 600);
       } else {
-        // No followUp if they push "No"
-        moveToNextQuestion();
+        // Finished
+        setTimeout(() => finishScreening(), 600);
       }
-    } else {
-      // Option is from FOLLOW UP
-      // we add the provided score matching the matrix modifiers
-      if (optionScoreObj && optionScoreObj.score > 0) {
-        userScores.masking += q.weights.masking * optionScoreObj.score;
-        userScores.executive += q.weights.executive * optionScoreObj.score;
-        userScores.sensory += q.weights.sensory * optionScoreObj.score;
-      }
-      inFollowUp = false;
-      moveToNextQuestion();
     }
   }
 
-  function moveToNextQuestion() {
-    currentQuestionIndex++;
-    if (currentQuestionIndex < questions.length) {
-      askNextMainQuestion();
-    } else {
-      isChatFinished = true;
-      showFinalResult();
-    }
-  }
-
-  function askNextMainQuestion() {
-    const q = questions[currentQuestionIndex];
-    let responseText = "";
+  /**
+   * Ask the next adaptive question
+   */
+  function askNextQuestion() {
+    currentQuestion = screeningEngine.getNextQuestion();
     
-    // Add organic ack string to bubble
-    if (currentQuestionIndex === 0) {
-      responseText = q.text;
-    } else {
-      const ack = acknowledgments[currentQuestionIndex % acknowledgments.length];
-      responseText = ack + "<br><br>" + q.text;
+    if (!currentQuestion) {
+      finishScreening();
+      return;
     }
 
-    // Standard yes/no/sometimes options for the main question branch
-    showNovaMessage({ 
-      text: responseText, 
-      options: [
-        { label: "Yes", score: 1 }, 
-        { label: "Sometimes", score: 0.5 }, 
+    let responseText = currentQuestion.text;
+    
+    // Add acknowledgment before question (except first)
+    if (responseCount > 1) {
+      const ack = acknowledgments[(responseCount - 1) % acknowledgments.length];
+      responseText = ack + "<br><br>" + currentQuestion.text;
+    }
+
+    // Determine default options based on question type
+    let options = [
+      { label: "Yes", score: 1.0 },
+      { label: "Sometimes", score: 0.5 },
+      { label: "Not really", score: 0 }
+    ];
+
+    showNovaMessage({
+      text: responseText,
+      options: options,
+      questionId: currentQuestion.id
+    });
+  }
+
+  /**
+   * Show a follow-up question with branching options
+   */
+  function showFollowUpWithOptions(text, options) {
+    showNovaMessage({
+      text: text,
+      options: options.map(opt => ({
+        label: opt.label,
+        score: opt.score,
+        nextId: opt.next
+      }))
+    });
+  }
+
+  /**
+   * Show a follow-up with simple acknowledgment
+   */
+  function showFollowUp(question) {
+    let followUpText = question.text;
+    
+    const ack = acknowledgments[responseCount % acknowledgments.length];
+    followUpText = ack + "<br><br>" + followUpText;
+
+    let options = [
+      { label: "Yes", score: 1.0 },
+      { label: "Sometimes", score: 0.5 },
+      { label: "Not really", score: 0 }
+    ];
+
+    showNovaMessage({
+      text: followUpText,
+      options: options
+    });
+  }
+
+  /**
+   * Core function to display Nova's message and options
+   */
+  function showNovaMessage(messageObj) {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'message-wrapper nova';
+    msgDiv.style.opacity = '0';
+    msgDiv.style.animation = 'fadeIn 0.5s ease forwards 0.2s';
+    
+    const bubble = document.createElement('div');
+    bubble.className = 'message-bubble nova-bubble';
+    bubble.innerHTML = messageObj.text;
+    msgDiv.appendChild(bubble);
+
+    // Create options
+    if (messageObj.options) {
+      const optionsDiv = document.createElement('div');
+      optionsDiv.className = 'nova-options';
+      optionsDiv.style.opacity = '0';
+      optionsDiv.style.animation = 'fadeIn 0.5s ease forwards 0.4s';
+
+      messageObj.options.forEach(option => {
+        const btn = document.createElement('button');
+        btn.className = 'nova-option-btn';
+        btn.textContent = option.label;
+        btn.setAttribute('data-score', option.score);
+        btn.onclick = (e) => {
+          e.preventDefault();
+          const score = parseFloat(option.score);
+          const nextId = option.nextId || null;
+          processUserChoice(option.label, score, nextId);
+        };
+        optionsDiv.appendChild(btn);
+      });
+
+      msgDiv.appendChild(optionsDiv);
+    }
+
+    chatArea.insertBefore(msgDiv, typingIndicator);
+    scrollToBottom();
+  }
+
+  /**
+   * End screening and show results
+   */
+  function finishScreening() {
+    isChatFinished = true;
+
+    // Show completion message
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'message-wrapper nova';
+    msgDiv.style.opacity = '0';
+    msgDiv.style.animation = 'fadeIn 0.5s ease forwards';
+    const bubble = document.createElement('div');
+    bubble.className = 'message-bubble nova-bubble';
+    bubble.innerHTML = completionMessage;
+    msgDiv.appendChild(bubble);
+    chatArea.insertBefore(msgDiv, typingIndicator);
+
+    // Get final results
+    const results = screeningEngine.getFinalResults();
+    const recognition = screeningEngine.getRecognitionMoment();
+
+    // Save scores for results page
+    localStorage.setItem('neurobloom_scores', JSON.stringify({
+      masking: Math.round(results.masking),
+      executive: Math.round(results.executive),
+      sensory: Math.round(results.sensory)
+    }));
+    localStorage.setItem('neurobloom_recognition', JSON.stringify(recognition));
+
+    // Show transition to results
+    setTimeout(() => {
+      const transitionDiv = document.createElement('div');
+      transitionDiv.className = 'message-wrapper nova';
+      transitionDiv.style.opacity = '0';
+      transitionDiv.style.animation = 'fadeIn 0.6s ease forwards';
+      const transitionBubble = document.createElement('div');
+      transitionBubble.className = 'message-bubble nova-bubble';
+      transitionBubble.innerHTML = `<strong>${recognition.title}</strong><br><br>${recognition.message}`;
+      transitionDiv.appendChild(transitionBubble);
+      
+      const ctaDiv = document.createElement('div');
+      ctaDiv.style.marginTop = '20px';
+      ctaDiv.style.opacity = '0';
+      ctaDiv.style.animation = 'fadeIn 0.6s ease forwards 0.3s';
+      const ctaBtn = document.createElement('button');
+      ctaBtn.className = 'nova-option-btn nova-cta';
+      ctaBtn.textContent = 'See Your Full Pattern →';
+      ctaBtn.onclick = () => {
+        window.location.href = 'results.html';
+      };
+      ctaDiv.appendChild(ctaBtn);
+      transitionDiv.appendChild(ctaDiv);
+      
+      chatArea.insertBefore(transitionDiv, typingIndicator);
+      scrollToBottom();
+    }, 1200);
+  }
+
+  // Start with intro question
+  setTimeout(() => {
+    const intro = screeningEngine.getStartingQuestion();
+    showNovaMessage({
+      text: intro.text,
+      options: intro.options
+    });
+  }, 500); 
         { label: "No", score: 0 }
       ]
     });
