@@ -1,15 +1,38 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { defineConfig } from 'vite';
-import injectHTML from 'vite-plugin-html-inject';
+
+function htmlPartials() {
+  const loadTag = /<load\s+src="([^"]+)"\s*\/?>/g;
+
+  function resolvePartial(html, rootDir) {
+    return html.replace(loadTag, (_, src) => {
+      const relativePath = src.startsWith('/')
+        ? src.slice(1)
+        : src;
+      const filePath = path.resolve(rootDir, relativePath);
+      const partial = fs.readFileSync(filePath, 'utf8');
+      return resolvePartial(partial, rootDir);
+    });
+  }
+
+  return {
+    name: 'neurobloom-html-partials',
+    transformIndexHtml(html, ctx) {
+      const rootDir = ctx?.server?.config?.root || process.cwd();
+      return resolvePartial(html, rootDir);
+    }
+  };
+}
 
 export default defineConfig({
   plugins: [
-    injectHTML(), // Enable HTML partials support
+    htmlPartials(),
   ],
   server: {
     port: 3000,
-    open: true, // Automatically open the browser
   },
   build: {
-    outDir: 'dist', // Production build directory
+    outDir: 'dist',
   }
 });

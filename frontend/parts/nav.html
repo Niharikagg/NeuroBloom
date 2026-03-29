@@ -1,12 +1,25 @@
 <!-- NAVIGATION BAR -->
-<nav id="navbar">
-  <div class="logo">Neuro<span>Bloom</span></div>
-  <ul class="nav-links">
-    <li><a href="#features" onclick="scrollToSection('features')">Features</a></li>
-    <li><a href="#how" onclick="scrollToSection('how')">How it Works</a></li>
-    <li><a href="#screening" onclick="scrollToSection('screening')">Assessment</a></li>
-    <li><a href="#why" onclick="scrollToSection('why')">Why it exists</a></li>
+<nav id="navbar" class="app-nav" aria-label="Primary">
+  <a href="/" class="app-nav-brand">Neuro<span>Bloom</span></a>
+  <ul class="app-nav-links">
+    <li><a href="/#features" class="app-nav-link active" aria-current="page">Core Journey</a></li>
+    <li><a href="/#why" class="app-nav-link">Why It Exists</a></li>
+    <li>
+      <details class="support-menu">
+        <summary class="app-nav-link support-trigger">Support</summary>
+        <div class="support-panel">
+          <a href="/support/communication-coach.html" class="support-link">Communication Coach</a>
+        </div>
+      </details>
+    </li>
   </ul>
-  <!-- Main Call to Action (CTA) in the nav -->
-  <button class="nav-cta" onclick="scrollToSection('screening')">Start Assessment →</button>
+  <details class="manage-menu">
+    <summary class="access-btn manage-trigger">Manage</summary>
+    <div class="manage-panel" aria-label="Display settings">
+      <button type="button" class="access-btn" data-setting="stimulation" aria-pressed="false">Low Stimulation</button>
+      <button type="button" class="access-btn" data-setting="text-cycle">A-/A+</button>
+      <button type="button" class="access-btn" data-setting="spacing-cycle">S-/S+</button>
+      <button type="button" class="access-btn" data-setting="theme-cycle">Theme</button>
+    </div>
+  </details>
 </nav>

@@ -41,7 +41,7 @@
 
 .hero h1 {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(3rem, 6vw, 4.5rem); /* Responsive font sizing */
+  font-size: var(--hero-title-size, clamp(2.45rem, 4.8vw, 3.75rem)); /* Responsive font sizing */
   line-height: 1.1; 
   font-weight: 700;
   color: var(--deep); 
@@ -149,5 +149,5 @@
 }
 
 @media (max-width: 768px) {
-  .hero h1 { font-size: 3.5rem; }
+  .hero h1 { font-size: var(--hero-title-size-mobile, 2.7rem); }
 }

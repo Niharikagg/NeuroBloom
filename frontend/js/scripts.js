@@ -7,6 +7,7 @@
 */
 
 document.addEventListener('DOMContentLoaded', () => {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   /** 
     * --- NAVIGATION ---
     * Updates navbar styling when scrolling down to improve design consistency.
@@ -14,9 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const navbar = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
     // Add the 'scrolled' class if the page has been scrolled more than 50px vertically.
-    if (window.scrollY > 50) {
+    if (navbar && window.scrollY > 50) {
       navbar.classList.add('scrolled');
-    } else {
+    } else if (navbar) {
       navbar.classList.remove('scrolled');
     }
   });
@@ -29,6 +30,15 @@ document.addEventListener('DOMContentLoaded', () => {
     threshold: 0.1,         // Triggers when 10% of the element is visible.
     rootMargin: '0px 0px -50px 0px' // Slightly offset the trigger point for a smoother reveal.
   };
+
+  if (prefersReducedMotion || document.body.classList.contains('low-stimulation')) {
+    document.querySelectorAll('.feat-card, .step, .test-card, .insight-card, .stat-item, .screening-inner').forEach(el => {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+      el.style.transition = 'none';
+    });
+    return;
+  }
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -80,7 +90,9 @@ function scrollToSection(id) {
   // Utilize the browser's native smooth scroll API.
   window.scrollTo({
     top: offsetPosition,
-    behavior: 'smooth'
+    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches || document.body.classList.contains('low-stimulation')
+      ? 'auto'
+      : 'smooth'
   });
 }
 

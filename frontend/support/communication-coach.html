@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Communication Coach - NeuroBloom</title>
+  <meta name="description" content="A private communication sandbox for difficult messages and hard conversations.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/nav.css">
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(201, 115, 106, 0.08), transparent 30%),
+        linear-gradient(180deg, var(--white) 0%, var(--sand) 100%);
+      font-family: 'Lexend', sans-serif;
+    }
+
+    .coach-page {
+      min-height: 100vh;
+      padding: 16px 18px 48px;
+      box-sizing: border-box;
+    }
+
+    .coach-shell {
+      max-width: 880px;
+      margin: 0 auto;
+      display: grid;
+      gap: 20px;
+    }
+
+    .coach-header {
+      display: grid;
+      gap: 14px;
+      padding: 8px 4px 0;
+    }
+
+    .coach-tag {
+      margin: 0;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #8B6B7A;
+    }
+
+    .coach-title {
+      margin: 0;
+      font-size: 2.2rem;
+      line-height: 1.12;
+      font-weight: 600;
+      color: var(--deep);
+    }
+
+    .coach-intro {
+      margin: 0;
+      max-width: 56ch;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #5D4A57;
+    }
+
+    .coach-panel {
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid rgba(188, 160, 188, 0.16);
+      border-radius: 28px;
+      box-shadow: 0 14px 38px rgba(59, 37, 53, 0.05);
+      padding: 26px;
+    }
+
+    .coach-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .coach-tab {
+      min-height: 42px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(188, 160, 188, 0.18);
+      background: rgba(253, 250, 248, 0.92);
+      color: #6b5060;
+      cursor: pointer;
+      font-family: 'Lexend', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .coach-tab.is-active {
+      background: rgba(201, 115, 106, 0.14);
+      border-color: rgba(201, 115, 106, 0.24);
+      color: var(--deep);
+    }
+
+    .coach-form {
+      display: grid;
+      gap: 18px;
+    }
+
+    .coach-field {
+      display: grid;
+      gap: 10px;
+    }
+
+    .coach-field.is-hidden {
+      display: none;
+    }
+
+    .coach-mode-note,
+    .coach-note,
+    .coach-result-card,
+    .coach-mini-card {
+      background: rgba(253, 250, 248, 0.96);
+      border: 1px solid rgba(188, 160, 188, 0.16);
+      border-radius: 22px;
+    }
+
+    .coach-mode-note,
+    .coach-note,
+    .coach-result-card,
+    .coach-mini-card,
+    .coach-copy-block {
+      color: #4F3B48;
+      line-height: 1.7;
+    }
+
+    .coach-mode-note,
+    .coach-note,
+    .coach-result-card,
+    .coach-mini-card,
+    .coach-copy-block {
+      padding: 18px;
+      box-sizing: border-box;
+    }
+
+    .coach-label,
+    .coach-mini-title {
+      color: var(--deep);
+      font-size: 0.86rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .coach-textarea {
+      width: 100%;
+      min-height: 150px;
+      padding: 16px 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(188, 160, 188, 0.18);
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--deep);
+      font-family: 'Lexend', sans-serif;
+      font-size: 0.96rem;
+      line-height: 1.65;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+
+    .coach-textarea.coach-textarea--secondary {
+      min-height: 108px;
+    }
+
+    .coach-actions {
+      display: grid;
+      gap: 10px;
+    }
+
+    .coach-submit,
+    .coach-copy {
+      min-height: 44px;
+      padding: 0 18px;
+      border-radius: 999px;
+      font-family: 'Lexend', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .coach-submit {
+      width: fit-content;
+      border: none;
+      background: var(--rose);
+      color: var(--white);
+    }
+
+    .coach-submit[disabled] {
+      opacity: 0.75;
+      cursor: not-allowed;
+    }
+
+    .coach-error {
+      display: none;
+      margin: 0;
+      color: #8c4c56;
+      font-size: 0.92rem;
+    }
+
+    .coach-results {
+      display: none;
+      margin-top: 22px;
+    }
+
+    .coach-result-stack,
+    .coach-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .coach-result-topbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .coach-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: rgba(188, 160, 188, 0.12);
+      color: var(--deep);
+      font-size: 0.84rem;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+
+    .coach-copy {
+      border: 1px solid rgba(188, 160, 188, 0.18);
+      background: transparent;
+      color: var(--deep);
+    }
+
+    .coach-copy-block {
+      margin-top: 8px;
+      background: rgba(245, 237, 230, 0.9);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .coach-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .coach-mini-body {
+      color: #5D4A57;
+      line-height: 1.7;
+      word-break: break-word;
+    }
+
+    @media (max-width: 768px) {
+      .coach-page {
+        padding: 12px 14px 40px;
+      }
+
+      .coach-panel {
+        padding: 18px;
+        border-radius: 24px;
+      }
+
+      .coach-title {
+        font-size: 1.9rem;
+      }
+
+      .coach-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="has-app-nav theme-petal">
+  <nav id="navbar" class="app-nav" aria-label="Primary">
+    <a href="/" class="app-nav-brand">Neuro<span>Bloom</span></a>
+    <ul class="app-nav-links">
+      <li><a href="/#features" class="app-nav-link">Core Journey</a></li>
+      <li><a href="/#why" class="app-nav-link">Why It Exists</a></li>
+      <li>
+        <details class="support-menu" open>
+          <summary class="app-nav-link support-trigger active" aria-current="page">Support</summary>
+          <div class="support-panel">
+            <a href="/support/communication-coach.html" class="support-link">Communication Coach</a>
+          </div>
+        </details>
+      </li>
+    </ul>
+    <details class="manage-menu">
+      <summary class="access-btn manage-trigger">Manage</summary>
+      <div class="manage-panel" aria-label="Display settings">
+        <button type="button" class="access-btn" data-setting="stimulation" aria-pressed="false">Low Stimulation</button>
+        <button type="button" class="access-btn" data-setting="text-cycle">A-/A+</button>
+        <button type="button" class="access-btn" data-setting="spacing-cycle">S-/S+</button>
+        <button type="button" class="access-btn" data-setting="theme-cycle">Theme</button>
+      </div>
+    </details>
+  </nav>
+
+  <div class="page-crumbs" aria-label="Breadcrumb">
+    <a href="/">Home</a> &gt; <a href="/support/communication-coach.html">Support</a> &gt; <span aria-current="page">Communication Coach</span>
+  </div>
+
+  <main id="communication-coach-root"></main>
+
+  <script type="module" src="/js/communication-coach.js"></script>
+  <script type="module" src="/js/accessibility.js"></script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Nova</title>
+  <title>Focus Feature - NeuroBloom</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,19 +11,42 @@
 
   <link rel="stylesheet" href="/css/variables.css">
   <link rel="stylesheet" href="/css/nav.css">
-  <link rel="stylesheet" href="/css/nova.css">
+  <style>
+    :root {
+      --color-background-primary: var(--sand);
+      --color-background-secondary: rgba(255, 255, 255, 0.82);
+      --color-text-primary: var(--deep);
+      --color-text-secondary: var(--text);
+      --color-text-tertiary: #7a6b75;
+      --color-border-tertiary: rgba(59, 37, 53, 0.12);
+      --border-radius-lg: 24px;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(159, 225, 203, 0.12), transparent 28%),
+        linear-gradient(180deg, var(--white) 0%, var(--sand) 100%);
+    }
+
+    .support-shell {
+      min-height: 100vh;
+      padding: 24px 0 48px;
+    }
+  </style>
 </head>
-<body class="nova-body has-app-nav">
+<body class="has-app-nav theme-petal">
   <nav id="navbar" class="app-nav" aria-label="Primary">
     <a href="/" class="app-nav-brand">Neuro<span>Bloom</span></a>
     <ul class="app-nav-links">
       <li><a href="/#features" class="app-nav-link">Core Journey</a></li>
       <li><a href="/#why" class="app-nav-link">Why It Exists</a></li>
       <li>
-        <details class="support-menu">
-          <summary class="app-nav-link support-trigger">Support</summary>
+        <details class="support-menu" open>
+          <summary class="app-nav-link support-trigger active" aria-current="page">Support</summary>
           <div class="support-panel">
-            <a href="/support/communication-coach.html" class="support-link">Communication Coach</a>
+            <a href="/support/focus-recovery.html" class="support-link">Focus Feature</a>
           </div>
         </details>
       </li>
@@ -40,18 +63,14 @@
   </nav>
 
   <div class="page-crumbs" aria-label="Breadcrumb">
-    <a href="/">Home</a> &gt; <a href="/nova.html">Understand</a> &gt; <span aria-current="page">Screening</span>
+    <a href="/">Home</a> &gt; <a href="/support/focus-recovery.html">Support</a> &gt; <span aria-current="page">Focus Feature</span>
   </div>
 
-  <main class="nova-chat-area" id="chatArea">
-    <div class="message-wrapper nova hidden" id="typingIndicator">
-      <div class="message-bubble nova-bubble typing-bubble">
-        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-      </div>
-    </div>
-  </main>
+  <div class="support-shell">
+    <div id="app"></div>
+  </div>
 
-  <script src="/js/nova.js" type="module"></script>
-  <script src="/js/accessibility.js" type="module"></script>
+  <script type="module" src="/support/focus-recovery-preview.jsx"></script>
+  <script type="module" src="/js/accessibility.js"></script>
 </body>
 </html>

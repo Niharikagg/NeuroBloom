@@ -1,80 +1,172 @@
+import { generateFinalFeedbackWithAI, isOpenAIConfigured } from './openai-client.js';
+
 document.addEventListener('DOMContentLoaded', () => {
   const loadingState = document.getElementById('loadingState');
   const resultsArea = document.getElementById('resultsArea');
   const resultsInput = document.getElementById('resultsInput');
 
-  // Load scores
   const savedScores = localStorage.getItem('neurobloom_scores');
-  let scores = { masking: 0, executive: 0, sensory: 0 };
+  const savedMaxScores = localStorage.getItem('neurobloom_max_scores');
+  const savedAnswers = localStorage.getItem('neurobloom_answers');
+  const savedTailoredQuestions = localStorage.getItem('neurobloom_tailored_questions');
+  const savedAssessmentSummary = localStorage.getItem('neurobloom_assessment_summary');
+  const savedAiFeedback = localStorage.getItem('neurobloom_ai_feedback');
+
+  let scores = { masking: 0, social: 0, sensory: 0 };
+  let maxScores = { masking: 48.0, social: 15.6, sensory: 16.8 };
+  let answers = {};
+  let tailoredQuestions = [];
+  let assessmentSummary = null;
+
   if (savedScores) {
     scores = JSON.parse(savedScores);
   }
+  if (savedMaxScores) {
+    maxScores = JSON.parse(savedMaxScores);
+  }
+  if (savedAnswers) {
+    answers = JSON.parse(savedAnswers);
+  }
+  if (savedTailoredQuestions) {
+    tailoredQuestions = JSON.parse(savedTailoredQuestions);
+  }
+  if (savedAssessmentSummary) {
+    assessmentSummary = JSON.parse(savedAssessmentSummary);
+  }
 
-  // Maximum possible scores (base + followUp max = doubled matrix)
-  const MAX_MASKING = 14.50;
-  const MAX_EXECUTIVE = 15.00;
-  const MAX_SENSORY = 14.50;
-
-  // Calculate percentages 
   const percentages = {
-    masking: Math.min(Math.round((scores.masking / MAX_MASKING) * 100), 100),
-    executive: Math.min(Math.round((scores.executive / MAX_EXECUTIVE) * 100), 100),
-    sensory: Math.min(Math.round((scores.sensory / MAX_SENSORY) * 100), 100)
+    masking: maxScores.masking ? Math.min(Math.round((scores.masking / maxScores.masking) * 100), 100) : 0,
+    social: maxScores.social ? Math.min(Math.round((scores.social / maxScores.social) * 100), 100) : 0,
+    sensory: maxScores.sensory ? Math.min(Math.round((scores.sensory / maxScores.sensory) * 100), 100) : 0
   };
 
-  // Determine highest pattern
   const sorted = [
     { cat: 'masking', val: percentages.masking },
-    { cat: 'executive', val: percentages.executive },
+    { cat: 'social', val: percentages.social },
     { cat: 'sensory', val: percentages.sensory }
   ].sort((a, b) => b.val - a.val);
 
   let highestCat = sorted[0].cat;
-  
-  // Rule: If two or more are close together, use "The Mixed-Load Navigator"
   if (sorted[0].val - sorted[1].val <= 8) {
     highestCat = 'mixed';
   }
 
   const resultsData = {
     masking: {
-      label: "The Exhausted Performer",
-      insight: "Most of your energy seems to go into looking okay while trying not to fall apart. That kind of constant performance can make even ordinary days feel expensive, especially when sensory overload and task-starting also keep asking for attention. This is not a personality flaw — it is your brain spending too much energy on survival mode.<br><br>What part of the day usually leaves you most drained?"
+      label: 'Camouflaging / Masking',
+      insight: 'Your responses suggest that a lot of energy may go into studying, rehearsing, hiding needs, or performing a version of yourself that feels safer in social settings.'
     },
-    executive: {
-      label: "The Stuck Starter",
-      insight: "You seem to know what needs doing, but starting it is where everything gets weirdly heavy. That’s usually less about laziness and more about executive friction showing up at the worst possible time. The other scores suggest there’s some pressure in the background too, but the starting problem is the loudest one here.<br><br>What kind of task do you usually get stuck on first?"
+    social: {
+      label: 'Social Confusion & Understanding',
+      insight: 'Your answers suggest that social cues, connection, and feeling different may be a meaningful part of your experience.'
     },
     sensory: {
-      label: "The Overstimulated Achiever",
-      insight: "Your nervous system is absorbing a lot more than most people realize — noise, light, tone of voice, the energy in a room. By the time you get to actual work, you're already halfway depleted. The achieving part is real, but it's costing you more than it should.<br><br>What environment do you do your best thinking in?"
+      label: 'Sensory Sensitivity & Overload',
+      insight: 'Your responses suggest that sensory overload may be playing a strong role in your daily life.'
     },
     mixed: {
-      label: "The Mixed-Load Navigator",
-      insight: "Your brain is managing a complex intersection of needs — balancing effort across masking, executive planning, and sensory filtering simultaneously. This means your energy gets drained from multiple directions at once, making burnout harder to predict. You aren't just dealing with one challenge; you're carrying a mixed load.<br><br>Which of these areas feels the most exhausting right now?"
+      label: 'Mixed Pattern Profile',
+      insight: 'Your results show overlap across sensory overload, social understanding, and masking.'
     }
   };
 
-  // Inject UI Content based on outcome
+  function answerScore(key) {
+    return answers[key] ? answers[key].score : -1;
+  }
+
+  function buildFallbackFeedback() {
+    const notes = [];
+
+    if (highestCat === 'masking' || answerScore('masking-4') >= 3 || answerScore('masking-7') >= 3) {
+      notes.push('A strong thread here is the amount of effort it may take to stay socially readable while also protecting your own needs.');
+    }
+
+    if (highestCat === 'sensory' || answerScore('sensory-1') >= 3 || answerScore('sensory-2') >= 3) {
+      notes.push('Your answers also suggest that overload may not just be emotional. It may be tied to environments, pace, and how long your nervous system has had to keep adapting.');
+    }
+
+    if (highestCat === 'social' || answerScore('social-1') >= 3 || answerScore('social-3') >= 3) {
+      notes.push('There is also a pattern of extra interpretation work, where connection may require more decoding, checking, or self-monitoring than other people notice.');
+    }
+
+    if (tailoredQuestions.some((question) => answerScore(question.key) >= 3 && question.theme === 'sensory')) {
+      notes.push('The more specific questions point toward your harder moments being shaped by regulation and recovery, not only by willpower or motivation.');
+    }
+
+    if (tailoredQuestions.some((question) => answerScore(question.key) >= 3 && question.theme === 'masking')) {
+      notes.push('The tailored responses also suggest that managing visibility, effort, and self-presentation may be costing more energy than it seems from the outside.');
+    }
+
+    if (tailoredQuestions.some((question) => answerScore(question.key) >= 3 && question.theme === 'social')) {
+      notes.push('Your later answers suggest that the social strain may come less from a lack of care and more from how much processing is happening in the background.');
+    }
+
+    if (!notes.length) {
+      notes.push('Your answers show a meaningful pattern even where things are mixed. What stands out most is that the strain seems real, layered, and worth taking seriously.');
+    }
+
+    return {
+      overview: resultsData[highestCat].insight,
+      observations: notes.slice(0, 3)
+    };
+  }
+
+  function formatFeedback(feedback) {
+    return `
+      <p>${feedback.overview}</p>
+      ${feedback.observations.map((note) => `<p>${note}</p>`).join('')}
+    `;
+  }
+
+  async function loadAiFeedback() {
+    if (savedAiFeedback) {
+      return JSON.parse(savedAiFeedback);
+    }
+
+    if (!isOpenAIConfigured()) {
+      return buildFallbackFeedback();
+    }
+
+    try {
+      const aiFeedback = await generateFinalFeedbackWithAI({
+        highestPattern: resultsData[highestCat].label,
+        percentages,
+        tailoredQuestions,
+        assessmentSummary,
+        answers
+      });
+
+      localStorage.setItem('neurobloom_ai_feedback', JSON.stringify(aiFeedback));
+      return aiFeedback;
+    } catch (error) {
+      console.error('Unable to generate final AI feedback.', error);
+      return buildFallbackFeedback();
+    }
+  }
+
   document.getElementById('patternLabel').textContent = resultsData[highestCat].label;
-  document.getElementById('insightText').innerHTML = resultsData[highestCat].insight;
+  document.getElementById('insightText').innerHTML = `<p>${resultsData[highestCat].insight}</p>`;
 
-  document.getElementById('barMasking').style.width = percentages.masking + '%';
-  document.getElementById('numMasking').textContent = percentages.masking + '%';
-  document.getElementById('barExecutive').style.width = percentages.executive + '%';
-  document.getElementById('numExecutive').textContent = percentages.executive + '%';
-  document.getElementById('barSensory').style.width = percentages.sensory + '%';
-  document.getElementById('numSensory').textContent = percentages.sensory + '%';
+  document.getElementById('barMasking').style.width = `${percentages.masking}%`;
+  document.getElementById('numMasking').textContent = `${percentages.masking}%`;
+  document.getElementById('barExecutive').style.width = `${percentages.social}%`;
+  document.getElementById('numExecutive').textContent = `${percentages.social}%`;
+  document.getElementById('barSensory').style.width = `${percentages.sensory}%`;
+  document.getElementById('numSensory').textContent = `${percentages.sensory}%`;
 
-  // Simulate loading delay
+  loadAiFeedback().then((feedback) => {
+    document.getElementById('insightText').innerHTML = formatFeedback(feedback);
+  });
+
   setTimeout(() => {
     loadingState.classList.add('fade-out');
-    
+
     setTimeout(() => {
       loadingState.style.display = 'none';
       resultsArea.classList.remove('hidden');
-      resultsInput.classList.remove('hidden');
-    }, 1200); 
-    
+      if (resultsInput) {
+        resultsInput.classList.remove('hidden');
+      }
+    }, 1200);
   }, 4000);
 });

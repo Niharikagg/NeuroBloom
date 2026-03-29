@@ -1,14 +1,22 @@
 /* Nova Chat Interface Styles */
 
+html,
+body {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 .nova-body {
   background-color: var(--sand, #F5EDE6);
   margin: 0;
   padding: 0;
   font-family: 'DM Sans', sans-serif;
-  height: 100vh;
+  min-height: 100vh;
+  height: auto;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* Top Bar */
@@ -75,7 +83,7 @@
 .nova-chat-area {
   flex-grow: 1;
   padding: 24px;
-  overflow-y: auto;
+  overflow: visible;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -142,6 +150,16 @@
   color: #4A3040;
 }
 
+.followup-bubble {
+  background: rgba(253, 250, 248, 0.92);
+  border-style: dashed;
+}
+
+.tailored-bubble {
+  background: rgba(253, 250, 248, 0.98);
+  border-color: rgba(201, 115, 106, 0.28);
+}
+
 .user-bubble {
   background: var(--rose, #C9736A);
   border-radius: 20px 20px 4px 20px;
@@ -190,10 +208,14 @@
 /* Quick Prompts */
 .quick-prompts {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 12px;
   margin-top: 4px;
   margin-left: 4px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .prompt-chip {
@@ -206,6 +228,135 @@
   color: var(--rose, #C9736A);
   cursor: pointer;
   transition: all 0.3s;
+  white-space: normal;
+  line-height: 1.2;
+}
+
+.begin-chip {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.answer-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  margin-left: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  align-items: stretch;
+  box-sizing: border-box;
+}
+
+.answer-chip {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr);
+  align-items: start;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 0;
+  padding: 12px 14px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-align: left;
+  line-height: 1.25;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  border-radius: 14px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.answer-chip.is-selected {
+  background: rgba(201, 115, 106, 0.22);
+  border-color: rgba(201, 115, 106, 0.5);
+  color: #9C4F48;
+}
+
+.answer-chip.is-selected .answer-chip-radio {
+  background: currentColor;
+  box-shadow: inset 0 0 0 3px rgba(253, 250, 248, 0.95);
+  opacity: 1;
+}
+
+.answer-chip-radio {
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  margin-top: 1px;
+  opacity: 0.8;
+  box-sizing: border-box;
+}
+
+.answer-chip-label {
+  min-width: 0;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.editable-answer {
+  cursor: pointer;
+}
+
+.editable-answer .user-bubble {
+  opacity: 0.94;
+}
+
+@media (max-width: 768px) {
+  .nova-chat-area {
+    padding: 12px;
+  }
+
+  .answer-row {
+    gap: 8px;
+  }
+
+  .answer-chip {
+    grid-template-columns: 14px minmax(0, 1fr);
+    gap: 8px;
+    padding: 11px 12px;
+    font-size: 0.75rem;
+    line-height: 1.2;
+    border-radius: 12px;
+  }
+
+  .answer-chip-radio {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+@media (max-width: 420px) {
+  .nova-chat-area {
+    padding: 10px;
+  }
+
+  .answer-row {
+    gap: 7px;
+  }
+
+  .answer-chip {
+    grid-template-columns: 12px minmax(0, 1fr);
+    gap: 7px;
+    padding: 10px 11px;
+    font-size: 0.68rem;
+    line-height: 1.15;
+    border-radius: 10px;
+  }
+
+  .answer-chip-radio {
+    width: 10px;
+    height: 10px;
+    margin-top: 2px;
+  }
 }
 
 .prompt-chip:hover {
