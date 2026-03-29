@@ -1,0 +1,63 @@
+/* 
+  ================================================================
+  VARIABLES & BASE RESETS
+  ================================================================
+  This file contains the "Design Tokens" (colors, fonts, etc.)
+  that are used consistently throughout the application.
+*/
+
+:root {
+  /* --- Brand Palette --- */
+  --rose:     #C9736A;  /* Accent color: for buttons, highlights, em tags */
+  --rose-glow: rgba(201, 115, 106, 0.4); /* Used for subtle shadows and glow effects */
+  --blush:    #F0D5CF;  /* Soft secondary: for backgrounds and light cards */
+  --mauve:    #BCA0BC;  /* Tertiary color: for icons and accents */
+  --lavender: #E8E0F0;  /* Cool secondary: for subtle gradients */
+  --sand:     #F5EDE6;  /* Warm neutral: used for main section backgrounds */
+  
+  /* --- Core Colors --- */
+  --deep:     #3B2535;  /* Deep text/heading color (dark Plum) */
+  --text:     #4A3040;  /* Standard body text color */
+  --white:    #FDFAF8;  /* Off-white background to prevent eye strain */
+  --glass:    rgba(253, 250, 248, 0.75); /* Semi-transparent color for glassmorphism */
+}
+
+/* 
+  Global Reset:
+  Ensures consistent behavior across different browsers.
+*/
+*, *::before, *::after { 
+  box-sizing: border-box; /* padding and borders don't increase element width */
+  margin: 0; 
+  padding: 0; 
+}
+
+/* Base HTML behavior */
+html { 
+  scroll-behavior: smooth; /* Native smooth scrolling for anchor links */
+}
+
+body {
+  font-family: 'DM Sans', sans-serif; /* Clean, modern sans-serif */
+  background: var(--white);
+  color: var(--text);
+  overflow-x: hidden; /* Prevent horizontal scroll bars */
+  line-height: 1.6;    /* Improved readability spacing */
+}
+
+/* Global Section Spacing */
+section { 
+  padding: 140px 80px; /* Generous vertical padding for a premium, airy feel */
+}
+
+/* 
+  Responsive Spacing:
+  Adjust section padding as the screen gets smaller.
+*/
+@media (max-width: 1200px) {
+  section { padding: 100px 40px; }
+}
+
+@media (max-width: 768px) {
+  section { padding: 80px 24px; }
+}

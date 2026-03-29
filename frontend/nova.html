@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Nova — Antigravity Agent</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/nova.css">
+</head>
+<body class="nova-body">
+
+  <!-- Top bar -->
+  <header class="nova-topbar">
+    <a href="/" class="nova-back">←</a>
+    <div class="nova-title-container">
+      <h1 class="nova-title">Nova</h1>
+      <span class="nova-subtitle">Antigravity Agent</span>
+    </div>
+    <button class="nova-settings">⚙</button>
+  </header>
+
+  <!-- Chat area -->
+  <main class="nova-chat-area" id="chatArea">
+    
+    <!-- Nova Initial Message -->
+    <div class="message-wrapper nova fade-in-slow">
+      <div class="nova-avatar-container">
+        <div class="nova-avatar">🌸</div>
+        <span class="nova-name">Nova</span>
+      </div>
+      <div class="message-bubble nova-bubble">
+        This is a space with no performance required.<br>I’ll ask you a few gentle questions, one at a time.
+      </div>
+    </div>
+
+    <!-- Quick Prompts (chips) -->
+    <div class="quick-prompts fade-in-slow-delayed" id="quickPrompts">
+      <button class="prompt-chip">I'm overwhelmed</button>
+      <button class="prompt-chip">I shutdown today</button>
+      <button class="prompt-chip">I can't start anything</button>
+    </div>
+
+    <!-- Typing indicator (hidden initially) -->
+    <div class="message-wrapper nova hidden" id="typingIndicator">
+      <div class="message-bubble nova-bubble typing-bubble">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Input area -->
+  <footer class="nova-input-area">
+    <div class="input-container">
+      <input type="text" id="chatInput" placeholder="Say anything..." autocomplete="off">
+      <button id="sendBtn" class="send-btn">→</button>
+    </div>
+  </footer>
+
+  <script src="/js/nova.js" type="module"></script>
+</body>
+</html>
